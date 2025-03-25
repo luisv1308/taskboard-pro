@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { Project } from "../types/kanban";
-import { Task } from "./../types/kanban";
 
 interface ProjectStore {
   projects: Project[];
@@ -19,7 +18,7 @@ const useProjectStore = create<ProjectStore>((set) => ({
     set((state) => ({
       projects: [
         ...state.projects,
-        { id: crypto.randomUUID(), title: name, tasks: [] },
+        { id: crypto.randomUUID(), name, tasks: [] },
       ],
     })),
   addTask: (projectId: string, title: string) =>

@@ -8,6 +8,6 @@ export interface Task {
 
 export interface Project {
     id: string;
-    title: string;
+    name: string;
     tasks: Task[];
 }
