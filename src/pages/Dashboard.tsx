@@ -1,7 +1,7 @@
 import useProjectStore from '../store/useProjectStore';
 import { Button, Input } from 'antd';
 import { useState } from 'react';
-import KanbanBoard from '../components/KanbanBoard';
+import KanbanBoard from '../components/kanban/KanbanBoard';
 
 const Dashboard = () => {
   const { projects, addProject } = useProjectStore();
