@@ -1,64 +1,33 @@
 import { create } from "zustand";
 import { Project } from "../types/kanban";
+import { supabase } from "../lib/supabaseClient";
 
 interface ProjectStore {
   projects: Project[];
-  addProject: (name: string) => void;
-  addTask: (projectId: string, title: string) => void;
-  moveTask: (
-    taskId: string,
-    fromProjectId: string,
-    toStatus: "pending" | "in-progress" | "completed"
-  ) => void;
+  fetchProjects: () => Promise<void>;
+  addProject: (name: string) => Promise<void>;
 }
 
 const useProjectStore = create<ProjectStore>((set) => ({
   projects: [],
-  addProject: (name: string) =>
-    set((state) => ({
-      projects: [
-        ...state.projects,
-        { id: crypto.randomUUID(), name, tasks: [] },
-      ],
-    })),
-  addTask: (projectId: string, title: string) =>
-    set((state) => ({
-      projects: state.projects.map((project) =>
-        project.id === projectId
-          ? {
-              ...project,
-              tasks: [
-                ...project.tasks,
-                {
-                  id: crypto.randomUUID(),
-                  title,
-                  status: "pending",
-                  order: project.tasks.length,
-                  columnId: project.id,
-                },
-              ],
-            }
-          : project
-      ),
-    })),
 
-  moveTask: (
-    taskId: string,
-    fromProjectId: string,
-    toStatus: "pending" | "in-progress" | "completed"
-  ) =>
-    set((state) => ({
-      projects: state.projects.map((project) =>
-        project.id === fromProjectId
-          ? {
-              ...project,
-              tasks: project.tasks.map((task) =>
-                task.id === taskId ? { ...task, status: toStatus } : task
-              ),
-            }
-          : project
-      ),
-    })), // End of moveTask
-})); // End of useProjectStore
+  fetchProjects: async () => {
+    const { data, error } = await supabase.from("projects").select("*");
+    if (error) {
+      console.error("Error fetching projects:", error);
+    } else {
+      set({ projects: data });
+    }
+  },
+
+  addProject: async (name: string) => {
+    const { data, error } = await supabase.from("projects").insert([{ name }]).select("*");
+    if (error) {
+      console.error("Error adding project:", error);
+    } else {
+      set((state) => ({ projects: [...state.projects, ...data] }));
+    }
+  },
+}));
 
 export default useProjectStore;

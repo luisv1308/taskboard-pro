@@ -23,9 +23,9 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ projectId }) => {
       />
 
       <Row gutter={16} className="mt-4">
-        <TaskColumn status="pending" projectId={projectId} />
+        {/* <TaskColumn status="pending" projectId={projectId} />
         <TaskColumn status="in-progress" projectId={projectId} />
-        <TaskColumn status="completed" projectId={projectId} />
+        <TaskColumn status="completed" projectId={projectId} /> */}
       </Row>
     </div>
   );
