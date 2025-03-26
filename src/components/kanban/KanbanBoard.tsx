@@ -2,19 +2,13 @@ import { Row, Button } from "antd";
 import { useState, useEffect } from "react";
 import TaskColumn from "./TaskColumn";
 import AddTaskModal from "./AddTaskModal";
-import useProjectStore from "../../store/useProjectStore";
 
 interface KanbanBoardProps {
   projectId: string;
 }
 
 const KanbanBoard: React.FC<KanbanBoardProps> = ({ projectId }) => {
-  const { fetchTasks } = useProjectStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    fetchTasks(projectId);
-  }, [projectId]);
 
   return (
     <div>

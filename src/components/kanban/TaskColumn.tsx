@@ -12,8 +12,9 @@ interface ColumnProps {
 
 const TaskColumn: React.FC<ColumnProps> = ({ status, projectId }) => {
   const internalRef = useRef<HTMLDivElement>(null);
-  const { tasks, moveTask } = useProjectStore(); // Acceso a la función moveTask desde el store
-  
+  const { projects, moveTask } = useProjectStore(); // Acceso a la función moveTask desde el store
+  const project = projects.find((p) => p.id === projectId); // Encuentra el proyecto con el ID 
+
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "TASK",
     drop: (item: { taskId: string; fromProjectId: string }) =>
@@ -29,7 +30,7 @@ const TaskColumn: React.FC<ColumnProps> = ({ status, projectId }) => {
     <Col span={8}>
         <div ref={internalRef} className={`p-4 bg-gray-200 ${isOver ? "bg-gray-300" : ""} rounded-md`}>
             <h2 className="text-lg font-bold text-center mb-2">{status.toUpperCase()}</h2>
-            {tasks
+            {project?.tasks
                 .filter((task) => task.status === status)
                 .map((task) => (
                     <TaskCard key={task.id} task={task} projectId={projectId} />
