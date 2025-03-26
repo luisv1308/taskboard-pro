@@ -1,5 +1,4 @@
-# Crear un archivo README.md con el contenido del README estructurado
-readme_content = """# 📝 TaskBoard Pro
+"""# 📝 TaskBoard Pro
 
 TaskBoard Pro es una aplicación de gestión de tareas y proyectos estilo Kanban, similar a Trello, desarrollada con **React, Vite, Zustand, TypeScript, Tailwind CSS y Ant Design**.
 
