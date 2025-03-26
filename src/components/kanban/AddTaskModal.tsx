@@ -12,9 +12,9 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ projectId, isOpen, onClose 
     const { addTask } = useProjectStore(); // Acceso a la función addTask desde el store
     const [taskTitle, setTaskTitle] = useState('');
 
-    const handleAddTask = () => {
+    const handleAddTask = async () => {
         if (taskTitle.trim() === '') return;
-        addTask(projectId, taskTitle);
+        await addTask(projectId, taskTitle);
         setTaskTitle(''); // Limpiar el campo de entrada después de agregar la tarea
         onClose(); // Cerrar el modal después de agregar la tarea
     };
@@ -37,6 +37,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ projectId, isOpen, onClose 
                 placeholder="Título de la Tarea"
                 value={taskTitle}
                 onChange={(e) => setTaskTitle(e.target.value)}
+                onPressEnter={handleAddTask}
             />
         </Modal>
     );

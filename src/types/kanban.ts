@@ -1,9 +1,8 @@
 export interface Task {
     id: string;
     title: string;
-    order: number;
-    columnId: string;
     status: 'pending' | 'in-progress' | 'completed';
+    project_id: string;
 }
 
 export interface Project {
