@@ -1,42 +1,38 @@
-import { Col } from "antd";
 import { useDrop } from "react-dnd";
-import useProjectStore from "../../store/useProjectStore";
 import TaskCard from "./TaskCard";
 import { useRef } from "react";
 
-interface ColumnProps {
-  // Definición de las propiedades de la columna
+interface TaskColumnProps {
   status: "pending" | "in-progress" | "completed";
   projectId: string;
+  tasks: any[];
 }
 
-const TaskColumn: React.FC<ColumnProps> = ({ status, projectId }) => {
+const TaskColumn: React.FC<TaskColumnProps> = ({ status, projectId, tasks }) => {
   const internalRef = useRef<HTMLDivElement>(null);
-  const { projects, moveTask } = useProjectStore(); // Acceso a la función moveTask desde el store
-  const project = projects.find((p) => p.id === projectId); // Encuentra el proyecto con el ID 
-
-  const [{ isOver }, drop] = useDrop(() => ({
+  // 📌 Configurar React DnD para permitir soltar tareas en esta columna
+  const [{ isOver }, dropRef] = useDrop({
     accept: "TASK",
-    drop: (item: { taskId: string; fromProjectId: string }) =>
-      moveTask(item.taskId, status),
+    drop: () => ({ status }), // 📌 Define a qué estado se moverá la tarea
     collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+      isOver: monitor.isOver(),
     }),
-  }));
-
-  drop(internalRef);
-
+  });
+  dropRef(internalRef);
   return (
-    <Col span={8}>
-        <div ref={internalRef} className={`p-4 bg-gray-200 ${isOver ? "bg-gray-300" : ""} rounded-md`}>
-            <h2 className="text-lg font-bold text-center mb-2">{status.toUpperCase()}</h2>
-            {project?.tasks
-                .filter((task) => task.status === status)
-                .map((task) => (
-                    <TaskCard key={task.id} task={task} projectId={projectId} />
-                ))}
-        </div>
-    </Col>
+    <div
+      ref={internalRef} // 📌 Hacer que la columna acepte drops
+      className={`w-1/3 p-2 border rounded-md transition-all ${
+        isOver ? "bg-gray-300" : "bg-gray-100"
+      }`}
+    >
+      <h2 className="text-lg font-bold text-center capitalize">{status}</h2>
+      {tasks
+        .filter((task) => task.status === status)
+        .map((task) => (
+          <TaskCard key={task.id} task={task} projectId={projectId} />
+        ))}
+    </div>
   );
 };
 

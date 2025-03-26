@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Modal, Input, Button } from "antd";
-import useProjectStore from "../../store/useProjectStore";
+import { Modal, Input, Button, message } from "antd";
+import { useAddTask } from "../../hooks/useTasks";
 
 interface AddTaskModalProps {
     projectId: string;
@@ -9,14 +9,37 @@ interface AddTaskModalProps {
 }
 
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ projectId, isOpen, onClose }) => {
-    const { addTask } = useProjectStore(); // Acceso a la función addTask desde el store
+    const [messageApi, contextHolder] = message.useMessage();
     const [taskTitle, setTaskTitle] = useState('');
+    const addTaskMutation = useAddTask();
 
     const handleAddTask = async () => {
-        if (taskTitle.trim() === '') return;
-        await addTask(projectId, taskTitle);
-        setTaskTitle(''); // Limpiar el campo de entrada después de agregar la tarea
-        onClose(); // Cerrar el modal después de agregar la tarea
+        if (!taskTitle.trim()) {
+            messageApi.open({
+                type: 'warning',
+                content: 'El título de la tarea no puede estar vacío',
+            })
+            return
+        }
+
+        addTaskMutation.mutate({ projectId, title: taskTitle },
+            {
+                onSuccess: () => {
+                    messageApi.open({
+                        type: 'success',
+                        content: 'Tarea agregada exitosamente',
+                    })
+                    setTaskTitle('');
+                    onClose();
+                },
+                onError: (error) => {
+                    messageApi.open({
+                        type: 'error',
+                        content: error.message,
+                    })
+                },
+            }
+        );
     };
 
     return (
@@ -33,6 +56,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ projectId, isOpen, onClose 
                 </Button>,
             ]}
         >
+            {contextHolder}
             <Input
                 placeholder="Título de la Tarea"
                 value={taskTitle}

@@ -17,11 +17,18 @@ const useProjectStore = create<ProjectStore>((set) => ({
   projects: [],
 
   fetchProjects: async () => {
-    const { data, error } = await supabase.from("projects").select("*, tasks(*)");
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*, tasks(*)");
     if (error) {
       console.error("Error fetching projects:", error);
     } else {
-      set({ projects: data });
+      const projectsWithTask = data.map((project) => ({
+        ...project,
+        tasks: project.tasks || [],
+      }));
+
+      set({ projects: projectsWithTask });
     }
   },
 
@@ -29,7 +36,7 @@ const useProjectStore = create<ProjectStore>((set) => ({
     const { data, error } = await supabase
       .from("projects")
       .insert([{ name }])
-      .select("*");
+      .select("*, tasks(*)");
     if (error) {
       console.error("Error adding project:", error);
     } else {
@@ -42,22 +49,24 @@ const useProjectStore = create<ProjectStore>((set) => ({
       .from("tasks")
       .insert([{ project_id: projectId, title, status: "pending" }])
       .select("*");
+
     if (error) {
       console.error("Error adding task:", error);
     } else {
-      set((state) => {
-        state.projects.map((project) => {
-          if (project.id === projectId) {
-            project.tasks.push(data[0]);
-          }
-          return project;
-        });
-        return { ...state, projects: state.projects };
-      });
+      set((state) => ({
+        projects: state.projects.map((project) =>
+          project.id === projectId
+            ? { ...project, tasks: [...project.tasks, data[0]] }
+            : project
+        ),
+      }));
     }
   },
 
-  moveTask: async (taskId: string, toStatus: "pending" | "in-progress" | "completed") => {
+  moveTask: async (
+    taskId: string,
+    toStatus: "pending" | "in-progress" | "completed"
+  ) => {
     const { data, error } = await supabase
       .from("tasks")
       .update({ status: toStatus })
@@ -66,18 +75,14 @@ const useProjectStore = create<ProjectStore>((set) => ({
     if (error) {
       console.error("Error moving task:", error);
     } else {
-      set((state) => {
-        state.projects.map((project) => {
-          project.tasks.map((task) => {
-            if (task.id === taskId) {
-              task.status = toStatus;
-            }
-            return task;
-          });
-          return project;
-        });
-        return { ...state, projects: state.projects };
-      });
+      set((state) => ({
+        projects: state.projects.map((project) => ({
+          ...project,
+          tasks: project.tasks.map((task) =>
+            task.id === taskId ? { ...task, status: toStatus } : task
+          ),
+        })),
+      }));
     }
   },
 }));

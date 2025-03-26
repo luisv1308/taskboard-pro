@@ -2,12 +2,14 @@ import { Row, Button } from "antd";
 import { useState, useEffect } from "react";
 import TaskColumn from "./TaskColumn";
 import AddTaskModal from "./AddTaskModal";
+import { Task } from "../../types/kanban";
 
 interface KanbanBoardProps {
   projectId: string;
+  tasks: Task[];
 }
 
-const KanbanBoard: React.FC<KanbanBoardProps> = ({ projectId }) => {
+const KanbanBoard: React.FC<KanbanBoardProps> = ({ projectId, tasks }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -23,9 +25,9 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ projectId }) => {
       />
 
       <Row gutter={16} className="mt-4">
-        <TaskColumn status="pending" projectId={projectId} />
-        <TaskColumn status="in-progress" projectId={projectId} />
-        <TaskColumn status="completed" projectId={projectId} />
+        <TaskColumn status="pending" projectId={projectId} tasks={tasks} />
+        <TaskColumn status="in-progress" projectId={projectId} tasks={tasks} />
+        <TaskColumn status="completed" projectId={projectId} tasks={tasks} />
       </Row>
     </div>
   );

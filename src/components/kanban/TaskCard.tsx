@@ -1,29 +1,41 @@
-import { Card } from "antd";
 import { useDrag } from "react-dnd";
-import { Task } from "../../types/kanban";
-import { forwardRef, useRef } from "react";
+import { useMoveTask } from "../../hooks/useTasks";
+import { Card } from "antd";
+import { useRef } from "react";
 
-interface TaskProps {
-  task: Task;
+interface TaskCardProps {
+  task: { id: string; title: string; status: string };
   projectId: string;
 }
 
-const TaskCard: React.FC<TaskProps> = ({ task, projectId }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+  const moveTaskMutation = useMoveTask();
   const internalRef = useRef<HTMLDivElement>(null);
-
-  const [{ isDragging }, drag] = useDrag(() => ({
+  // 📌 Hacer que la tarjeta sea arrastrable con React DnD
+  const [{ isDragging }, dragRef] = useDrag({
     type: "TASK",
-    item: { taskId: task.id, fromProjectId: projectId },
+    item: { id: task.id, status: task.status },
+    end: (item, monitor) => {
+      const dropResult: { status: string } | null = monitor.getDropResult();
+      if (item && dropResult) {
+        const toStatus = dropResult.status as "pending" | "in-progress" | "completed";
+        if (toStatus === "pending" || toStatus === "in-progress" || toStatus === "completed") {
+          moveTaskMutation.mutate({ taskId: item.id, toStatus });
+        } else {
+          console.error(`Invalid status: ${toStatus}`);
+        }
+      }
+    },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: monitor.isDragging(),
     }),
-  }));
+  });
 
-  drag(internalRef); // Conectar el ref de Drag
-
+  dragRef(internalRef);
+  
   return (
     <Card
-      ref={internalRef}
+      ref={internalRef} // 
       className="mb-2 shadow-md"
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
