@@ -1,4 +1,4 @@
-## 📝 TaskBoard Pro
+# 📝 TaskBoard Pro
 
 TaskBoard Pro es una aplicación de gestión de tareas y proyectos estilo Kanban, similar a Trello, desarrollada con **React, Vite, Zustand, TypeScript, Tailwind CSS y Ant Design**.
 
@@ -50,6 +50,7 @@ La aplicación estará disponible en **http://localhost:5173/**.
 ---
 
 ## 📂 Estructura del proyecto
+\`\`\`
 📦 src
  ┣ 📂 components
  ┃ ┣ 📂 kanban
@@ -67,6 +68,7 @@ La aplicación estará disponible en **http://localhost:5173/**.
  ┃ ┗ 📜 kanban.ts            # Interfaces para tipado TypeScript
  ┣ 📜 App.tsx                # Punto de entrada de la app
  ┗ 📜 main.tsx               # Renderiza la aplicación en React
+\`\`\`
 
 ---
 
@@ -103,12 +105,3 @@ MIT License. Proyecto abierto para cualquier uso. ✨
 
 ### **👨‍💻 Autor**
 📌 Desarrollado por [Tu Nombre](https://github.com/tuusuario) 🚀  
-"""
-
-# Guardar el contenido en un archivo
-file_path = "/mnt/data/README.md"
-with open(file_path, "w", encoding="utf-8") as file:
-    file.write(readme_content)
-
-# Proporcionar el archivo al usuario
-file_path
