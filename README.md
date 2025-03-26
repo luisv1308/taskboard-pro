@@ -81,4 +81,4 @@ MIT License. Proyecto abierto para cualquier uso. ✨
 ---
 
 ### **👨‍💻 Autor**
-📌 Desarrollado por [Tu Nombre](https://github.com/luisv1308) 🚀  
+📌 Desarrollado por [Luis Velasquez](https://github.com/luisv1308) 🚀  
