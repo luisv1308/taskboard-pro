@@ -50,7 +50,6 @@ La aplicación estará disponible en **http://localhost:5173/**.
 ---
 
 ## 📂 Estructura del proyecto
-\`\`\`
 📦 src
  ┣ 📂 components
  ┃ ┣ 📂 kanban
@@ -68,7 +67,6 @@ La aplicación estará disponible en **http://localhost:5173/**.
  ┃ ┗ 📜 kanban.ts            # Interfaces para tipado TypeScript
  ┣ 📜 App.tsx                # Punto de entrada de la app
  ┗ 📜 main.tsx               # Renderiza la aplicación en React
-\`\`\`
 
 ---
 
