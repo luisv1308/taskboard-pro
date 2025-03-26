@@ -1,84 +1,64 @@
 # 📝 TaskBoard Pro
 
-TaskBoard Pro es una aplicación de gestión de tareas y proyectos estilo Kanban, similar a Trello, desarrollada con **React, Vite, Zustand, TypeScript, Tailwind CSS y Ant Design**.
+TaskBoard Pro es una aplicación web de gestión de tareas estilo Kanban, con soporte de arrastrar y soltar, estado global y persistencia en Supabase.
 
 ## 🚀 Tecnologías utilizadas
-- ⚛️ **React + Vite** - Para una aplicación rápida y eficiente.
-- 📜 **TypeScript** - Tipado estático para mayor seguridad y mantenibilidad.
-- 🎨 **Tailwind CSS + Ant Design** - Estilización moderna y componentes listos para usar.
-- 🌍 **Zustand** - Manejo de estado ligero y eficiente.
-- 🖱️ **React DnD** - Soporte de **drag & drop** para mover tareas en el tablero.
-- 🔥 **Firebase/Supabase** *(próximamente)* - Para persistencia y autenticación de usuarios.
-- ⚡ **React Query** *(próximamente)* - Para manejo eficiente de datos en el frontend.
+- 🎨 **Frontend**: React, Vite, TypeScript, Tailwind CSS, Ant Design
+- 🌍 **Estado**: React Query, Zustand
+- 🔥 **Backend**: Supabase (PostgreSQL, Auth, Storage)
+- 🖱 **Extras**: React DnD para Drag & Drop, Optimistic UI, Dark Mode (en progreso)
 
 ## 📌 Funcionalidades principales
-✔️ **Gestión de proyectos** - Crea y administra múltiples proyectos.  
-✔️ **Tablero Kanban** - Organiza tareas en columnas (*Pendiente, En Proceso, Completado*).  
-✔️ **Drag & Drop** - Arrastra tareas entre columnas.  
-✔️ **Estado global con Zustand** - Rápido y sin necesidad de Redux.  
-✔️ **Ant Design UI** - Modales, botones y formularios con diseño profesional.  
-✔️ **Modal para agregar tareas** - Interfaz interactiva con validación.  
-✔️ **Modo oscuro** *(próximamente)*.  
-✔️ **Autenticación con Google/Auth0** *(próximamente)*.  
+✔ **Gestión de proyectos y tareas**  
+✔ **Sistema de tablero Kanban con React DnD**  
+✔ **Persistencia de datos en Supabase**  
+✔ **Manejo de estado con React Query y Zustand**  
+✔ **Optimización de caché y sincronización automática con React Query**  
+✔ **Autenticación de usuarios (en progreso)**  
+✔ **Modo oscuro con Ant Design Tokens (en progreso)**  
 
 ---
 
-## 🛠 Instalación y configuración
-### 1️⃣ Clonar el repositorio
-\`\`\`sh
-git clone https://github.com/tuusuario/taskboard-pro.git
-cd taskboard-pro
-\`\`\`
-
-### 2️⃣ Instalar dependencias
-\`\`\`sh
-npm install
-\`\`\`
-
-### 3️⃣ Configurar Tailwind CSS
-Si es necesario, ejecuta:
-\`\`\`sh
-npx tailwindcss init -p
-\`\`\`
-
-### 4️⃣ Iniciar el servidor de desarrollo
-\`\`\`sh
-npm run dev
-\`\`\`
-La aplicación estará disponible en **http://localhost:5173/**.
+## 🛠 Estructura del código
+```
+📦 src
+ ┣ 📂 components
+ ┃ ┣ 📂 kanban
+ ┃ ┃ ┣ 📜 KanbanBoard.tsx    # Tablero principal
+ ┃ ┃ ┣ 📜 TaskColumn.tsx     # Columna del tablero (Pendiente, En Proceso, etc.)
+ ┃ ┃ ┣ 📜 TaskCard.tsx       # Tarjeta individual de tarea
+ ┃ ┃ ┗ 📜 AddTaskModal.tsx   # Modal para agregar tareas
+ ┃ ┗ 📂 hooks
+ ┃ ┃ ┗ 📜 useProjects.ts     # Hook para manejar proyectos con React Query
+ ┃ ┗ 📂 store
+ ┃ ┃ ┗ 📜 useProjectStore.ts # Manejo de estado global con Zustand
+ ┃ ┗ 📂 lib
+ ┃ ┃ ┣ 📜 supabaseClient.ts  # Conexión con Supabase
+ ┃ ┃ ┗ 📜 reactQueryClient.ts # Configuración de React Query
+ ┣ 📂 pages
+ ┃ ┗ 📜 Dashboard.tsx        # Página principal con proyectos
+```
 
 ---
 
-## 📌 Cómo agregar una tarea
-1️⃣ Haz clic en el botón **"Agregar Tarea"**.  
-2️⃣ Escribe el título de la nueva tarea en el **modal**.  
-3️⃣ Presiona **Enter** o haz clic en **"Agregar"**.  
-4️⃣ La tarea aparecerá en la columna **"Pendiente"**.  
+## 📌 Métodos clave en el código
+- `fetchProjects()` → Obtiene proyectos con sus tareas desde Supabase usando React Query.
+- `addProject(name)` → Agrega un nuevo proyecto y lo sincroniza con React Query.
+- `addTask(projectId, title)` → Añade una tarea a un proyecto en Supabase y actualiza la UI.
+- `moveTask(taskId, toStatus)` → Cambia el estado de una tarea y actualiza la base de datos.
 
 ---
 
-## 🔜 Roadmap y mejoras futuras
-🔹 **Persistencia de datos en Firebase/Supabase**  
-🔹 **Autenticación con Google/Auth0**  
-🔹 **Modo oscuro con Ant Design Tokens**  
-🔹 **Notificaciones en tiempo real con WebSockets**  
+## 🔜 Próximos pasos
+- **Finalizar autenticación con Google/Auth0 en Supabase**  
+- **Agregar notificaciones con Ant Design**  
+- **Optimizar UI y UX**  
+- **Permitir colaboración entre usuarios en proyectos**  
 
 ---
 
-## 📜 Licencia
-MIT License. Proyecto abierto para cualquier uso. ✨
+## 📜 Estado actual
+El proyecto funciona con carga de proyectos y tareas desde Supabase. Se está integrando autenticación y modo oscuro.
 
----
-
-## 💡 Contribuciones
-¡Todas las mejoras y sugerencias son bienvenidas! Para contribuir:
-1. **Fork** este repositorio.
-2. Crea una **rama** (\`git checkout -b feature/nueva-funcionalidad\`).
-3. **Commitea** tus cambios (\`git commit -m "Agregada nueva funcionalidad"\`).
-4. **Haz un push** a la rama (\`git push origin feature/nueva-funcionalidad\`).
-5. Abre un **Pull Request** y lo revisaremos. 🎉
-
----
-
-### **👨‍💻 Autor**
-📌 Desarrollado por [Luis Velasquez](https://github.com/luisv1308) 🚀  
+## 📎 Repositorio
+🔗 [GitHub - TaskBoard Pro](https://github.com/tuusuario/taskboard-pro)
