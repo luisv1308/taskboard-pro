@@ -49,29 +49,6 @@ La aplicación estará disponible en **http://localhost:5173/**.
 
 ---
 
-## 📂 Estructura del proyecto
-\`\`\`
-📦 src
- ┣ 📂 components
- ┃ ┣ 📂 kanban
- ┃ ┃ ┣ 📜 AddTaskModal.tsx   # Modal para agregar tareas
- ┃ ┃ ┣ 📜 KanbanBoard.tsx    # Tablero principal
- ┃ ┃ ┣ 📜 TaskColumn.tsx     # Columna del tablero (Pendiente, En Proceso, etc.)
- ┃ ┃ ┗ 📜 TaskCard.tsx       # Tarjeta individual de tarea
- ┃ ┗ 📂 ui
- ┃ ┃ ┗ 📜 Button.tsx         # Botón reutilizable (Ejemplo)
- ┣ 📂 store
- ┃ ┗ 📜 useProjectStore.ts   # Estado global con Zustand
- ┣ 📂 pages
- ┃ ┗ 📜 Dashboard.tsx        # Página principal con proyectos
- ┣ 📂 types
- ┃ ┗ 📜 kanban.ts            # Interfaces para tipado TypeScript
- ┣ 📜 App.tsx                # Punto de entrada de la app
- ┗ 📜 main.tsx               # Renderiza la aplicación en React
-\`\`\`
-
----
-
 ## 📌 Cómo agregar una tarea
 1️⃣ Haz clic en el botón **"Agregar Tarea"**.  
 2️⃣ Escribe el título de la nueva tarea en el **modal**.  
@@ -104,4 +81,4 @@ MIT License. Proyecto abierto para cualquier uso. ✨
 ---
 
 ### **👨‍💻 Autor**
-📌 Desarrollado por [Tu Nombre](https://github.com/tuusuario) 🚀  
+📌 Desarrollado por [Tu Nombre](https://github.com/luisv1308) 🚀  
